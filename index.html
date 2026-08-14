@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Special Proposal for You ✨</title>
+  <title>Special Proposal ✨</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -12,56 +12,69 @@
   <style>
     @keyframes float {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-15px) rotate(2deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
     }
     @keyframes pulse-glow {
-      0%, 100% { opacity: 0.4; transform: scale(1); }
-      50% { opacity: 0.8; transform: scale(1.1); }
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.1); }
     }
     .animate-float { animation: float 6s ease-in-out infinite; }
     .animate-glow { animation: pulse-glow 4s ease-in-out infinite; }
     .glass-card {
-      background: rgba(18, 18, 27, 0.65);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(18, 18, 27, 0.7);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
-    .glass-card-hover:hover {
-      border-color: rgba(244, 114, 182, 0.4);
-      box-shadow: 0 0 30px rgba(244, 114, 182, 0.15);
+    /* Smart Moving Button Smooth Physics */
+    #reject-btn {
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
   </style>
 </head>
-<body class="bg-[#07070d] text-white min-h-screen font-sans relative overflow-x-hidden selection:bg-pink-500/30">
+<body class="bg-[#05050a] text-white min-h-screen font-sans relative overflow-x-hidden selection:bg-pink-500/30">
+
+  <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112188.mp3"></audio>
 
   <div class="fixed inset-0 pointer-events-none z-0">
-    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-[120px] animate-glow"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] animate-glow" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-[130px] animate-glow"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[130px] animate-glow" style="animation-delay: 2s;"></div>
   </div>
 
-  <div id="main-container" class="relative z-10 max-w-4xl mx-auto px-6 py-12 min-h-screen flex flex-col justify-between">
+  <div class="fixed top-6 right-6 z-40">
+    <button 
+      onclick="toggleAudio()" 
+      id="audio-control"
+      class="glass-card px-4 py-2.5 rounded-full flex items-center gap-2.5 text-xs font-semibold text-pink-300 hover:text-white transition-all shadow-xl hover:scale-105"
+    >
+      <i data-lucide="music" id="music-icon" class="w-4 h-4 text-pink-400"></i>
+      <span id="audio-status">Play Music 🎵</span>
+    </button>
+  </div>
+
+  <div id="main-container" class="relative z-10 max-w-3xl mx-auto px-6 py-12 min-h-screen flex flex-col justify-between">
     
-    <header class="text-center space-y-3">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-semibold tracking-wider uppercase">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> A Special Invitation
+    <header class="text-center space-y-4">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-semibold tracking-widest uppercase">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Custom Proposal Experience
       </div>
       <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-300 to-purple-400">
-        Would You Walk This Journey With Me?
+        Will You Be Mine?
       </h1>
-      <p class="text-zinc-400 text-sm sm:text-base max-w-lg mx-auto font-light leading-relaxed">
-        I crafted this exclusive interactive space just for you. Take a moment, share your thoughts, and make your choice below.
+      <p class="text-zinc-400 text-sm max-w-md mx-auto font-light leading-relaxed">
+        I crafted this interactive space just for you. Share what is on your mind and make your choice below.
       </p>
     </header>
 
-    <main class="my-8">
+    <main class="my-6">
       <div class="glass-card rounded-3xl p-8 sm:p-12 shadow-2xl space-y-8 animate-float">
         
-        <div class="space-y-4">
+        <div class="space-y-3">
           <h2 class="text-xl font-bold text-pink-300 flex items-center gap-2">
             <i data-lucide="heart" class="w-5 h-5 text-pink-500 fill-pink-500"></i>
-            A Note From My Heart
+            A Personal Note
           </h2>
           <p class="text-zinc-300 text-sm leading-relaxed font-light">
-            Every moment spent thinking about our future brings a smile to my face. I wanted to build something unique and unforgettable—a digital memory that belongs only to us.
+            Every moment spent thinking about you brings unmatched joy. I wanted to build something unique and unforgettable—a digital memory made exclusively for us.
           </p>
         </div>
 
@@ -73,17 +86,17 @@
           <textarea 
             id="user-thought" 
             rows="3" 
-            placeholder="Type your feelings, thoughts, or questions here before clicking..."
+            placeholder="Type your feelings, thoughts, or questions here..."
             class="w-full bg-black/50 border border-zinc-800 rounded-2xl p-4 text-sm text-zinc-200 focus:outline-none focus:border-pink-500 transition-all resize-none"
           ></textarea>
         </div>
 
-        <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4 relative" id="button-area">
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[80px]" id="button-area">
           
           <button 
             id="accept-btn" 
             onclick="handleAccept()"
-            class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-bold rounded-2xl text-base shadow-lg shadow-pink-500/25 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+            class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-bold rounded-2xl text-base shadow-lg shadow-pink-500/25 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 z-20"
           >
             <i data-lucide="heart-handshake" class="w-5 h-5"></i> YES, I ACCEPT! ✨
           </button>
@@ -92,7 +105,8 @@
             id="reject-btn" 
             onclick="handleReject()"
             onmouseenter="dodgeButton()"
-            class="w-full sm:w-auto px-8 py-4 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 font-semibold rounded-2xl text-sm transition-all flex items-center justify-center gap-2"
+            ontouchstart="dodgeButton()"
+            class="w-full sm:w-auto px-8 py-4 bg-zinc-900/90 border border-zinc-800 text-zinc-400 font-semibold rounded-2xl text-sm flex items-center justify-center gap-2 z-10"
           >
             <i data-lucide="x-circle" class="w-4 h-4"></i> No, I Need Time
           </button>
@@ -103,20 +117,20 @@
     </main>
 
     <footer class="text-center text-xs text-zinc-600 font-mono">
-      Crafted with precision & passion • International Custom Edition
+      Custom Interactive Proposal • Developed with Love
     </footer>
 
   </div>
 
   <div id="reject-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-6 hidden">
-    <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center space-y-6 transform scale-95 transition-all">
+    <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center space-y-6">
       <div class="w-16 h-16 bg-pink-500/10 border border-pink-500/20 text-pink-400 rounded-full flex items-center justify-center mx-auto">
         <i data-lucide="refresh-cw" class="w-8 h-8 animate-spin"></i>
       </div>
       <div class="space-y-2">
         <h3 class="text-2xl font-bold text-white">Are You Really Sure? 🥺</h3>
         <p class="text-xs text-zinc-400 leading-relaxed">
-          Reject option is disabled until you give it another thought! Please choose again:
+          Rejecting is disabled until you give it another thought! Choose again:
         </p>
       </div>
 
@@ -127,73 +141,62 @@
         >
           <i data-lucide="check-circle" class="w-4 h-4"></i> Okay, I Accept Now! ❤️
         </button>
-        <button 
-          onclick="retryRejectLoop()"
-          class="w-full py-3 bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-semibold rounded-xl hover:text-white"
-        >
-          Try Rejecting Again 🔄
-        </button>
       </div>
     </div>
   </div>
 
-  <div id="success-screen" class="fixed inset-0 bg-[#07070d] z-50 flex flex-col items-center justify-center p-6 hidden text-center space-y-6">
+  <div id="success-screen" class="fixed inset-0 bg-[#05050a] z-50 flex flex-col items-center justify-center p-6 hidden text-center space-y-6">
     <div class="w-24 h-24 bg-pink-500/20 border border-pink-500/40 text-pink-400 rounded-full flex items-center justify-center animate-bounce">
       <i data-lucide="heart" class="w-12 h-12 fill-pink-500"></i>
     </div>
     <h2 class="text-4xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
       IT'S A YES! 🎉
     </h2>
-    <p class="text-zinc-300 text-sm sm:text-base max-w-md font-light leading-relaxed">
-      Thank you for accepting! Your response and thoughts have been sent directly to the developer.
+    <p class="text-zinc-300 text-sm max-w-md font-light leading-relaxed">
+      Thank you for accepting! Your response and thoughts have been dispatched directly to the developer.
     </p>
-    <div class="p-4 bg-zinc-900/60 border border-zinc-800 rounded-2xl text-xs font-mono text-pink-400">
-      Response Dispatch Status: <span id="dispatch-status">Notification Sent via Email & WhatsApp</span>
-    </div>
   </div>
 
   <script>
-    // Initialize Lucide Icons
     lucide.createIcons();
 
-    // DEVELOPER CONTACT CONFIGURATION (Apna Number aur Email Yahan Set Karein)
-    const DEVELOPER_WHATSAPP = "923103273904"; // Apka WhatsApp number
-    const DEVELOPER_EMAIL = "na0953237@gmail.com"; // Apka Email address
+    // DEVELOPER CONTACT CONFIGURATION
+    const DEVELOPER_WHATSAPP = "923103273904";
+    const DEVELOPER_EMAIL = "na0953237@gmail.com";
 
-    let rejectAttempts = 0;
+    let isAudioPlaying = false;
 
-    // Dodge Reject Button on Hover (Fun Extra Interaction)
-    function dodgeButton() {
-      if (rejectAttempts > 1) {
-        const btn = document.getElementById('reject-btn');
-        const x = (Math.random() - 0.5) * 200;
-        const y = (Math.random() - 0.5) * 100;
-        btn.style.transform = `translate(${x}px, ${y}px)`;
-      }
-    }
-
-    // Handle Reject Click -> Opens Mandatory Loop Modal
-    function handleReject() {
-      rejectAttempts++;
-      const userThought = document.getElementById('user-thought').value || "No thought shared yet";
+    // FEATURE #2: AUDIO PLAYER TOGGLE
+    function toggleAudio() {
+      const audio = document.getElementById('bg-music');
+      const statusText = document.getElementById('audio-status');
       
-      // Notify developer about rejection attempt
-      sendDeveloperNotification("REJECT_ATTEMPT", userThought);
-
-      // Open Modal Loop
-      document.getElementById('reject-modal').classList.remove('hidden');
+      if (isAudioPlaying) {
+        audio.pause();
+        statusText.innerText = "Play Music 🎵";
+      } else {
+        audio.play().catch(() => console.log("Audio autoplay prevented"));
+        statusText.innerText = "Playing... 🎶";
+      }
+      isAudioPlaying = !isAudioPlaying;
     }
 
-    // Retry Loop when clicking Reject inside Modal
-    function retryRejectLoop() {
-      // Re-trigger modal with small pulse effect
-      const modalCard = document.querySelector('#reject-modal > div');
-      modalCard.classList.remove('scale-95');
-      modalCard.classList.add('scale-100');
-      setTimeout(() => {
-        modalCard.classList.remove('scale-100');
-        modalCard.classList.add('scale-95');
-      }, 150);
+    // FEATURE #1: SMART UNCATCHABLE REJECT BUTTON DODGE
+    function dodgeButton() {
+      const btn = document.getElementById('reject-btn');
+      
+      // Calculate random translation offsets
+      const randomX = (Math.random() - 0.5) * 320;
+      const randomY = (Math.random() - 0.5) * 200;
+      
+      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    // HANDLE REJECT CLICK
+    function handleReject() {
+      const userThought = document.getElementById('user-thought').value || "No thought shared";
+      sendDeveloperNotification("REJECT_ATTEMPT", userThought);
+      document.getElementById('reject-modal').classList.remove('hidden');
     }
 
     function closeModalAndAccept() {
@@ -201,40 +204,34 @@
       handleAccept();
     }
 
-    // Handle Final Accept Click
+    // HANDLE ACCEPT & FEATURE #3: COMMUNICATION DISPATCH
     function handleAccept() {
-      const userThought = document.getElementById('user-thought').value || "She said YES without hesitation!";
+      const userThought = document.getElementById('user-thought').value || "She said YES!";
 
-      // 1. Send Notification to Developer via Mailto & WhatsApp
+      // Send Response Data
       sendDeveloperNotification("ACCEPTED", userThought);
 
-      // 2. Trigger Celebration Confetti Animation
-      confetti({
-        particleCount: 120,
-        spread: 80,
-        origin: { y: 0.6 }
-      });
+      // Trigger Confetti
+      confetti({ particleCount: 130, spread: 90, origin: { y: 0.6 } });
 
-      // 3. Show Success Screen
+      // View Shift
       document.getElementById('main-container').classList.add('hidden');
       document.getElementById('reject-modal').classList.add('hidden');
       document.getElementById('success-screen').classList.remove('hidden');
     }
 
-    // Notification Engine (Developer ko Message aur Reaction bhejta hai)
+    // FEATURE #3: DEVELOPER REAL-TIME NOTIFICATION ENGINE
     function sendDeveloperNotification(status, userThought) {
-      const subject = encodeURIComponent(`Proposal Response: ${status}`);
+      const subject = encodeURIComponent(`Proposal Response Alert: ${status}`);
       const body = encodeURIComponent(
         `PROPOSAL RESPONSE DETAILS:\n` +
         `--------------------------\n` +
         `Status: ${status}\n` +
-        `User Thoughts/Feedback:\n"${userThought}"\n\n` +
-        `Reject Attempts Before Action: ${rejectAttempts}`
+        `User Thought/Message:\n"${userThought}"`
       );
 
-      // Open Mail Dispatch in background/tab
       if (status === "ACCEPTED") {
-        window.open(`https://api.whatsapp.com/send?phone=${DEVELOPER_WHATSAPP}&text=${encodeURIComponent('❤️ Proposal Accepted!\nThought: ' + userThought)}`, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=${DEVELOPER_WHATSAPP}&text=${encodeURIComponent('❤️ Proposal Accepted!\n\nUser Thought: ' + userThought)}`, '_blank');
         window.location.href = `mailto:${DEVELOPER_EMAIL}?subject=${subject}&body=${body}`;
       }
     }
