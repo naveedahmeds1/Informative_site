@@ -25,9 +25,14 @@
       backdrop-filter: blur(25px);
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
-    /* Smart Moving Button Smooth Physics */
+    
+    /* Smooth Movement Physics for Reject Button */
     #reject-btn {
-      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    #accept-btn {
+      transition: transform 0.2s ease-in-out;
     }
   </style>
 </head>
@@ -55,7 +60,7 @@
     
     <header class="text-center space-y-4">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-semibold tracking-widest uppercase">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Custom Proposal Experience
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Special Invitation
       </div>
       <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-300 to-purple-400">
         Will You Be Mine?
@@ -91,21 +96,21 @@
           ></textarea>
         </div>
 
-        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[80px]" id="button-area">
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[120px]" id="button-area">
           
           <button 
             id="accept-btn" 
             onclick="handleAccept()"
-            class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-bold rounded-2xl text-base shadow-lg shadow-pink-500/25 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 z-20"
+            class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-bold rounded-2xl text-base shadow-lg shadow-pink-500/25 transition-all flex items-center justify-center gap-2 z-20"
           >
             <i data-lucide="heart-handshake" class="w-5 h-5"></i> YES, I ACCEPT! ✨
           </button>
 
           <button 
             id="reject-btn" 
-            onclick="handleReject()"
-            onmouseenter="dodgeButton()"
-            ontouchstart="dodgeButton()"
+            onclick="moveAndDodgeButton(event)"
+            onmouseenter="moveAndDodgeButton(event)"
+            ontouchstart="moveAndDodgeButton(event)"
             class="w-full sm:w-auto px-8 py-4 bg-zinc-900/90 border border-zinc-800 text-zinc-400 font-semibold rounded-2xl text-sm flex items-center justify-center gap-2 z-10"
           >
             <i data-lucide="x-circle" class="w-4 h-4"></i> No, I Need Time
@@ -130,7 +135,7 @@
       <div class="space-y-2">
         <h3 class="text-2xl font-bold text-white">Are You Really Sure? 🥺</h3>
         <p class="text-xs text-zinc-400 leading-relaxed">
-          Rejecting is disabled until you give it another thought! Choose again:
+          Rejecting option is locked! Please choose again:
         </p>
       </div>
 
@@ -160,13 +165,15 @@
   <script>
     lucide.createIcons();
 
-    // DEVELOPER CONTACT CONFIGURATION
+    // DEVELOPER CONTACT INFO
     const DEVELOPER_WHATSAPP = "923103273904";
     const DEVELOPER_EMAIL = "na0953237@gmail.com";
 
     let isAudioPlaying = false;
+    let dodgeCount = 0;
+    let acceptScale = 1;
 
-    // FEATURE #2: AUDIO PLAYER TOGGLE
+    // AUDIO PLAYER TOGGLE
     function toggleAudio() {
       const audio = document.getElementById('bg-music');
       const statusText = document.getElementById('audio-status');
@@ -175,28 +182,40 @@
         audio.pause();
         statusText.innerText = "Play Music 🎵";
       } else {
-        audio.play().catch(() => console.log("Audio autoplay prevented"));
+        audio.play().catch(() => console.log("Audio play allowed on user click"));
         statusText.innerText = "Playing... 🎶";
       }
       isAudioPlaying = !isAudioPlaying;
     }
 
-    // FEATURE #1: SMART UNCATCHABLE REJECT BUTTON DODGE
-    function dodgeButton() {
-      const btn = document.getElementById('reject-btn');
-      
-      // Calculate random translation offsets
-      const randomX = (Math.random() - 0.5) * 320;
-      const randomY = (Math.random() - 0.5) * 200;
-      
-      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-    }
+    // ADVANCED TAP & HOVER POSITION MOVING LOGIC
+    function moveAndDodgeButton(e) {
+      if (e) e.preventDefault(); // Stop direct click on mobile tap
 
-    // HANDLE REJECT CLICK
-    function handleReject() {
-      const userThought = document.getElementById('user-thought').value || "No thought shared";
-      sendDeveloperNotification("REJECT_ATTEMPT", userThought);
-      document.getElementById('reject-modal').classList.remove('hidden');
+      dodgeCount++;
+      const rejectBtn = document.getElementById('reject-btn');
+      const acceptBtn = document.getElementById('accept-btn');
+
+      // Calculate safe screen bounds so button never leaves screen
+      const bounds = 140; 
+      const randomX = (Math.random() - 0.5) * (window.innerWidth < 640 ? 220 : 380);
+      const randomY = (Math.random() - 0.5) * 180;
+
+      // Apply transform position
+      rejectBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+      // Make "Yes" button GROW bigger on every reject tap!
+      acceptScale += 0.08;
+      acceptBtn.style.transform = `scale(${acceptScale})`;
+
+      // Send rejection attempt notification to developer
+      const userThought = document.getElementById('user-thought').value || "Attempted to tap reject button";
+      sendDeveloperNotification(`REJECT_ATTEMPT_#${dodgeCount}`, userThought);
+
+      // Open modal if tapped 5 times
+      if (dodgeCount >= 5) {
+        document.getElementById('reject-modal').classList.remove('hidden');
+      }
     }
 
     function closeModalAndAccept() {
@@ -204,37 +223,33 @@
       handleAccept();
     }
 
-    // HANDLE ACCEPT & FEATURE #3: COMMUNICATION DISPATCH
+    // HANDLE FINAL ACCEPT
     function handleAccept() {
       const userThought = document.getElementById('user-thought').value || "She said YES!";
 
-      // Send Response Data
       sendDeveloperNotification("ACCEPTED", userThought);
+      confetti({ particleCount: 140, spread: 90, origin: { y: 0.6 } });
 
-      // Trigger Confetti
-      confetti({ particleCount: 130, spread: 90, origin: { y: 0.6 } });
-
-      // View Shift
       document.getElementById('main-container').classList.add('hidden');
       document.getElementById('reject-modal').classList.add('hidden');
       document.getElementById('success-screen').classList.remove('hidden');
     }
 
-    // FEATURE #3: DEVELOPER REAL-TIME NOTIFICATION ENGINE
+    // REAL-TIME NOTIFICATION DISPATCH
     function sendDeveloperNotification(status, userThought) {
-      const subject = encodeURIComponent(`Proposal Response Alert: ${status}`);
+      const subject = encodeURIComponent(`Proposal Alert: ${status}`);
       const body = encodeURIComponent(
         `PROPOSAL RESPONSE DETAILS:\n` +
         `--------------------------\n` +
         `Status: ${status}\n` +
-        `User Thought/Message:\n"${userThought}"`
+        `User Message/Thought:\n"${userThought}"`
       );
 
       if (status === "ACCEPTED") {
-        window.open(`https://api.whatsapp.com/send?phone=${DEVELOPER_WHATSAPP}&text=${encodeURIComponent('❤️ Proposal Accepted!\n\nUser Thought: ' + userThought)}`, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=${DEVELOPER_WHATSAPP}&text=${encodeURIComponent('❤️ Proposal Accepted!\n\nUser Message: ' + userThought)}`, '_blank');
         window.location.href = `mailto:${DEVELOPER_EMAIL}?subject=${subject}&body=${body}`;
       }
     }
   </script>
 </body>
-  </html>
+</html>
